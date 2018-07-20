@@ -1,0 +1,13 @@
+spring:
+    profiles: default
+
+server:
+    port: 9002
+
+---
+
+spring:
+    profiles: production
+
+server:
+    port: 9002|

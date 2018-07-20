@@ -1,0 +1,2 @@
+ls
+gradle clean build

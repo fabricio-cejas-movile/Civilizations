@@ -1,0 +1,173 @@
+<configuration debug="true">
+    <property name="LOG_PATH" value="/"/>
+    <property name="DEFAULT_PATTERN"
+              value="%highlight([%-5level]) %magenta([%date{ISO8601}]) | %yellow([%X{traceid}]) | %msg%n"/>
+    <property name="DEFAULT_PATTERN_SYSTEM"
+              value="%highlight([%-5level]) %magenta([%date{ISO8601}]) | %yellow([%X{traceid}]) | %msg%n"/>
+    <property name="EXCEPTION_PATTERN"
+              value="%highlight([%-5level]) %magenta([%date{ISO8601}]) | %yellow([%X{traceid}]) | %magenta([%class->%method:%line]) | [Exception %msg - Thread Id %thread - Start]%n%xException{8}%n[Exception %msg - End]%n"/>
+    <property name="DEFAULT_MAX_FILE_SIZE" value="1024MB"/>
+    <property name="DEFAULT_MAX_HISTORY" value="100"/>
+    <property name="DEFAULT_ASYNC_QUEUE_SIZE" value="256"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are by default assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ap_exceptions"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/exceptions.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/exceptions.k3m.%d{yyyy-MM-dd}.log.%i.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${DEFAULT_MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${EXCEPTION_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ap_requestsanswered"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/requests_answered.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/requests_answered.k3m.%d{yyyy-MM-dd}.log.%i.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${DEFAULT_MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ap_requestsanswered_async" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${DEFAULT_ASYNC_QUEUE_SIZE}</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="ap_requestsanswered"/>
+    </appender>
+
+    <appender name="ap_requestsperformed"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/requests_performed.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/requests_performed.k3m.%d{yyyy-MM-dd}.log.%i.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${DEFAULT_MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ap_requestsperformed_async" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${DEFAULT_ASYNC_QUEUE_SIZE}</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="ap_requestsperformed"/>
+    </appender>
+
+    <appender name="ap_system"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/system.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/system.k3m.%d{yyyy-MM-dd}.log.%i.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${DEFAULT_MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN_SYSTEM}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ap_system_async" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${DEFAULT_ASYNC_QUEUE_SIZE}</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="ap_system"/>
+    </appender>
+
+    <appender name="ap_dao"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/dao.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/dao.k3m.%d{yyyy-MM-dd}.log.%i.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${DEFAULT_MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN_SYSTEM}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ap_dao_async" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${DEFAULT_ASYNC_QUEUE_SIZE}</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="ap_dao"/>
+    </appender>
+
+    <logger name="exceptions" level="ERROR" additivity="false">
+        <appender-ref ref="ap_exceptions"/>
+    </logger>
+
+    <logger name="requests_performed" level="INFO" additivity="false">
+        <appender-ref ref="ap_requestsperformed_async"/>
+    </logger>
+
+    <logger name="requests_answered" level="INFO" additivity="false">
+        <appender-ref ref="ap_requestsanswered_async"/>
+    </logger>
+
+    <logger name="system" level="DEBUG" additivity="false">
+        <appender-ref ref="ap_system_async"/>
+    </logger>
+
+    <logger name="com.movile" level="DEBUG" additivity="false">
+        <appender-ref ref="ap_system_async"/>
+    </logger>
+
+    <logger name="movile_sdk" level="INFO" additivity="false">
+        <appender-ref ref="ap_system_async"/>
+    </logger>
+
+    <logger name="properties" level="DEBUG" additivity="false">
+        <appender-ref ref="ap_system_async"/>
+    </logger>
+
+    <logger name="dao" level="DEBUG" additivity="false">
+        <appender-ref ref="ap_dao_async"/>
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
