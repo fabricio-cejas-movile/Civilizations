@@ -1,5 +1,5 @@
 <configuration debug="true">
-    <property name="LOG_PATH" value="/"/>
+    <property name="LOG_PATH" value="./logs"/>
     <property name="DEFAULT_PATTERN"
               value="%highlight([%-5level]) %magenta([%date{ISO8601}]) | %yellow([%X{traceid}]) | %msg%n"/>
     <property name="DEFAULT_PATTERN_SYSTEM"

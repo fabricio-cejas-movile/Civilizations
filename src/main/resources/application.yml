@@ -10,4 +10,4 @@ spring:
     profiles: production
 
 server:
-    port: 9002|
+    port: 9002
