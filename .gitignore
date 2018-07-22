@@ -30,3 +30,6 @@ build/
 #intell
 .idea/*
 *.iml
+
+#gradle
+out/

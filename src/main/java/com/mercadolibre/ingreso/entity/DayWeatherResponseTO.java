@@ -1,4 +1,4 @@
-package com.mercadolibre.ingreso.model;
+package com.mercadolibre.ingreso.entity;
 
 import lombok.*;
 
@@ -10,9 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DayWeatherDTO {
+public class DayWeatherResponseTO {
 
     private Integer dayNumber;
 
-    private String weather;
+    private WeatherStatus weather;
 }

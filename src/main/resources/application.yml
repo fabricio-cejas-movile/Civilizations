@@ -1,5 +1,10 @@
 spring:
     profiles: default
+    datasource:
+            url: jdbc:postgresql://localhost:5432/civilizations
+            username: postgres
+            password: sOLEDAd04011981
+            driver-class-name: org.postgresql.Driver
 
 server:
     port: 9002
@@ -8,6 +13,11 @@ server:
 
 spring:
     profiles: production
+    datasource:
+            url: jdbc:postgresql://localhost:5432/civilizations
+            username: postgres
+            password: sOLEDAd04011981
+            driver-class-name: org.postgresql.Driver
 
 server:
     port: 9002
