@@ -13,7 +13,7 @@ public enum WeatherStatus {
     LLUVIA("Lluvia"),
     CONDICIONES_OPTIMAS("Condiciones_optimas"),
     NORMAL("Normal"),
-    ERROR("No información para este dia");
+    ERROR("Desconocido");
 
     private String value;
 }

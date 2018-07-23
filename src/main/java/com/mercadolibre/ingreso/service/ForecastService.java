@@ -23,6 +23,9 @@ public class ForecastService {
     @Autowired
     private WeatherDAO dao;
 
+    @Autowired
+    private WeatherForecast weatherForecast;
+
     private static final int AMOUNT_DAYS = 365;
 
     private static final int AMOUNT_YEARS = 10;
@@ -63,10 +66,11 @@ public class ForecastService {
 
                 final Integer uniqueDay = day + (year * AMOUNT_DAYS);
 
+                WeatherStatus weatherStatus = weatherForecast.calculateWeatherOfDay(uniqueDay);
 
-                DayWeatherDTO dayWeatherDTO = new DayWeatherDTO(uniqueDay, WeatherStatus.LLUVIA);
+                DayWeatherDTO dayWeatherDTO = new DayWeatherDTO(uniqueDay, weatherStatus);
 
-                Optional<DayWeatherDTO> optDayWeatherDTO = dao.saveDay(dayWeatherDTO);
+                dao.saveDay(dayWeatherDTO);
             });
         });
     }
