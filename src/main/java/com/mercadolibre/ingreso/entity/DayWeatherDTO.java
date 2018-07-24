@@ -16,17 +16,17 @@ public class DayWeatherDTO extends DayWeatherResponseTO {
 
     private Long id;
 
-    public DayWeatherDTO(Integer dayNumber, WeatherStatus weather) {
-        super(dayNumber, weather);
+    public DayWeatherDTO(Integer day, WeatherStatus weather) {
+        super(day, weather);
     }
 
-    public DayWeatherDTO(Long id, Integer dayNumber, WeatherStatus weather) {
-        super(dayNumber, weather);
+    public DayWeatherDTO(Long id, Integer day, WeatherStatus weather) {
+        super(day, weather);
         this.id = id;
     }
 
-    public DayWeatherDTO(Long id, Integer dayNumber, String weather) {
-        super(dayNumber, WeatherStatus.valueOf(weather.toUpperCase()));
+    public DayWeatherDTO(Long id, Integer day, String weather) {
+        super(day, WeatherStatus.valueOf(weather.toUpperCase()));
         this.id = id;
     }
 }

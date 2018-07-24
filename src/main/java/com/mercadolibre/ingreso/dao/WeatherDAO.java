@@ -22,7 +22,7 @@ import java.util.Optional;
  * @author Fabricio Cejas (fabrizzio.cejas.80@gmail.com)
  */
 @Repository
-public class WeatherDAO implements IWeatherDAO {
+public class WeatherDAO {
 
     @Autowired
     private Logs log;
@@ -30,7 +30,12 @@ public class WeatherDAO implements IWeatherDAO {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @Override
+    /**
+     * Find Weather using day number
+     *
+     * @param dayWeatherDTO
+     * @return
+     */
     public Optional<DayWeatherDTO> findWeatherByDay(DayWeatherDTO dayWeatherDTO) {
 
         StopWatch chronometer = new StopWatch();
@@ -39,11 +44,11 @@ public class WeatherDAO implements IWeatherDAO {
         String query = "SELECT id, day, weather FROM public.civ_day_weather WHERE day = ?";
 
         try {
-            dayWeatherDTO = jdbcTemplate.queryForObject(query, new Object[]{dayWeatherDTO.getDayNumber()}, (rs, rowNum) -> {
+            dayWeatherDTO = jdbcTemplate.queryForObject(query, new Object[]{dayWeatherDTO.getDay()}, (rs, rowNum) -> {
                 return new DayWeatherDTO(rs.getLong("id"), rs.getInt("day"), rs.getString("weather"));
             });
         } catch (DataAccessException e) {
-            log.exceptions().warn("[There is no data for day {}]", dayWeatherDTO.getDayNumber());
+            log.exceptions().warn("[There is no data for day {}]", dayWeatherDTO.getDay());
             dayWeatherDTO.setWeather(WeatherStatus.ERROR);
         }
 
@@ -54,7 +59,12 @@ public class WeatherDAO implements IWeatherDAO {
         return Optional.of(dayWeatherDTO);
     }
 
-    @Override
+    /**
+     * Save a day in data Base
+     *
+     * @param dayWeatherDTO
+     * @return
+     */
     public Optional<DayWeatherDTO> saveDay(DayWeatherDTO dayWeatherDTO) {
 
         StopWatch chronometer = new StopWatch();
@@ -67,7 +77,7 @@ public class WeatherDAO implements IWeatherDAO {
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 
                 PreparedStatement ps = con.prepareStatement("INSERT INTO public.civ_day_weather(day, weather) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, dayWeatherDTO.getDayNumber());
+                ps.setInt(1, dayWeatherDTO.getDay());
                 ps.setString(2, dayWeatherDTO.getWeather().getValue());
 
                 return ps;
@@ -84,7 +94,11 @@ public class WeatherDAO implements IWeatherDAO {
         return Optional.of(dayWeatherDTO);
     }
 
-    @Override
+    /**
+     * Recover amount registers of day
+     *
+     * @return Integer
+     */
     public Optional<Integer> getAmountRegisters() {
 
         StopWatch chronometer = new StopWatch();

@@ -21,6 +21,17 @@ public class Triangle {
         this.area = calculateArea(pointA, pointB, pointC);
     }
 
+    /**
+     * Given Three points, calculate area using:
+     * [(x1 * y2) + (x2 * y3) + (x3 * y1)] - [(x1 * y3) + (x3 * y2) + (x2 * y1)]
+     * --------------------------------------------------------------------------
+     * 2
+     *
+     * @param pointA
+     * @param pointB
+     * @param pointC
+     * @return
+     */
     private Double calculateArea(Coordenates pointA, Coordenates pointB, Coordenates pointC) {
 
         double firstTerm = (pointA.getPosX() * pointB.getPosY())

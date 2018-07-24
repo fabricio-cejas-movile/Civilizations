@@ -45,13 +45,13 @@ public class ForecastService {
         }
 
         DayWeatherDTO dayWeatherDTO = new DayWeatherDTO();
-        dayWeatherDTO.setDayNumber(day);
+        dayWeatherDTO.setDay(day);
 
         Optional<DayWeatherDTO> optional = dao.findWeatherByDay(dayWeatherDTO);
 
         dayWeatherDTO = optional.orElse(new DayWeatherDTO());
 
-        DayWeatherResponseTO dayWeatherResponseTO = new DayWeatherResponseTO(dayWeatherDTO.getDayNumber(), dayWeatherDTO.getWeather());
+        DayWeatherResponseTO dayWeatherResponseTO = new DayWeatherResponseTO(dayWeatherDTO.getDay(), dayWeatherDTO.getWeather());
 
         return dayWeatherResponseTO;
     }
@@ -70,7 +70,9 @@ public class ForecastService {
 
                 DayWeatherDTO dayWeatherDTO = new DayWeatherDTO(uniqueDay, weatherStatus);
 
-                dao.saveDay(dayWeatherDTO);
+                Optional<DayWeatherDTO> optDayWeatherDTO = dao.saveDay(dayWeatherDTO);
+
+                log.system().debug("[init registers in data base][day: {}][was saved: {}]", uniqueDay, optDayWeatherDTO.get());
             });
         });
     }

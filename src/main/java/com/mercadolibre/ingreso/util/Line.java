@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * The formula of any given line its y = mx+b
+ * where m is the slope, and b is the y-intercept.
+ *
  * @author Fabricio Cejas (fabrizzio.cejas.80@gmail.com)
  */
 @Getter
@@ -26,12 +29,12 @@ public class Line {
         return point.getPosY() == ((this.slope * point.getPosX()) + this.yIntercept);
     }
 
-    private Double calculateSlope(Coordenates pointA, Coordenates pointB) {
+    public Double calculateSlope(Coordenates pointA, Coordenates pointB) {
         Double slope = (pointB.getPosY() - pointA.getPosY()) / (pointB.getPosX() - pointA.getPosX());
         return Math.round(slope * 100d) * 100d;
     }
 
-    private Double calculateYIntercept(Coordenates pointA, Double slope) {
+    public Double calculateYIntercept(Coordenates pointA, Double slope) {
         Double yIntercept = pointA.getPosY() - (slope * pointA.getPosX());
         return Math.round(yIntercept * 100d) * 100d;
     }

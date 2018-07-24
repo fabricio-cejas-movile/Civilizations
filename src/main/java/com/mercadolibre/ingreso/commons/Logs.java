@@ -9,18 +9,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Logs {
+
     private Logger requestAnswered = LoggerFactory.getLogger("requests_answered");
-    private Logger requestPerformed = LoggerFactory.getLogger("requests-performed");
     private Logger exceptions = LoggerFactory.getLogger("exceptions");
     private Logger system = LoggerFactory.getLogger("system");
     private Logger dao = LoggerFactory.getLogger("dao");
 
     public Logger requestAnswered() {
         return this.requestAnswered;
-    }
-
-    public Logger requestPerformed() {
-        return this.requestPerformed;
     }
 
     public Logger exceptions() {
