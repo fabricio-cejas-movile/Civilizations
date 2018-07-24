@@ -13,12 +13,25 @@ import lombok.ToString;
 @ToString
 public class Triangle {
 
+    private Coordenates pointA;
+
+    private Coordenates pointB;
+
+    private Coordenates pointC;
+
     private Double area;
 
     private Double perimeter;
 
     public Triangle(Coordenates pointA, Coordenates pointB, Coordenates pointC) {
-        this.area = calculateArea(pointA, pointB, pointC);
+
+        this.pointA = pointA;
+        this.pointB = pointB;
+        this.pointC = pointC;
+
+        this.calculateArea();
+        this.calculatePerimeter();
+
     }
 
     /**
@@ -27,23 +40,33 @@ public class Triangle {
      * --------------------------------------------------------------------------
      * 2
      *
-     * @param pointA
-     * @param pointB
-     * @param pointC
      * @return
      */
-    private Double calculateArea(Coordenates pointA, Coordenates pointB, Coordenates pointC) {
+    public void calculateArea() {
 
-        double firstTerm = (pointA.getPosX() * pointB.getPosY())
-                + (pointB.getPosX() * pointC.getPosY()) + (pointC.getPosX() * pointA.getPosY());
+        double firstTerm = (this.pointA.getPosX() * this.pointB.getPosY())
+                + (this.pointB.getPosX() * pointC.getPosY()) + (this.pointC.getPosX() * this.pointA.getPosY());
 
-        double secondTerm = (pointA.getPosX() * pointC.getPosY())
-                + (pointC.getPosX() * pointB.getPosY()) + (pointB.getPosX() * pointA.getPosY());
+        double secondTerm = (this.pointA.getPosX() * this.pointC.getPosY())
+                + (this.pointC.getPosX() * this.pointB.getPosY()) + (this.pointB.getPosX() * this.pointA.getPosY());
 
-        return Math.round(((firstTerm - secondTerm) / 2) * 100d) * 100d;
+        this.area = Math.round(((firstTerm - secondTerm) / 2) * 100d) * 100d;
     }
 
-    private Double calculatePerimeter() {
-        return null;
+    /**
+     * Calculate perimeter, obtaining distance between pointA-pointB, pointA-pointC, pointB-pointC
+     * for obtain distance squareRoot of ((x2 - x1)^2 + (y2 - y1)^2)
+     *
+     * @return
+     */
+    public void calculatePerimeter() {
+
+        Double distanceAB = Math.sqrt(Math.pow((this.pointB.getPosX() - this.pointA.getPosX()), 2d) + Math.pow((this.pointB.getPosY() - this.pointA.getPosY()), 2d));
+
+        Double distanceAC = Math.sqrt(Math.pow((this.pointC.getPosX() - this.pointA.getPosX()), 2d) + Math.pow((this.pointC.getPosY() - this.pointA.getPosY()), 2d));
+
+        Double distanceBC = Math.sqrt(Math.pow((this.pointC.getPosX() - this.pointB.getPosX()), 2d) + Math.pow((this.pointC.getPosY() - this.pointB.getPosY()), 2d));
+
+        this.perimeter = Math.round((distanceAB + distanceAC + distanceBC) * 100d) * 100d;
     }
 }

@@ -76,9 +76,10 @@ public class WeatherDAO {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 
-                PreparedStatement ps = con.prepareStatement("INSERT INTO public.civ_day_weather(day, weather) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement ps = con.prepareStatement("INSERT INTO public.civ_day_weather(day, weather, perimeter) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, dayWeatherDTO.getDay());
                 ps.setString(2, dayWeatherDTO.getWeather().getValue());
+                ps.setDouble(3, dayWeatherDTO.getPerimeter());
 
                 return ps;
             }

@@ -66,9 +66,9 @@ public class ForecastService {
 
                 final Integer uniqueDay = day + (year * AMOUNT_DAYS);
 
-                WeatherStatus weatherStatus = weatherForecast.calculateWeatherOfDay(uniqueDay);
+                DayWeatherDTO dayWeatherDTO = new DayWeatherDTO(uniqueDay, null);
 
-                DayWeatherDTO dayWeatherDTO = new DayWeatherDTO(uniqueDay, weatherStatus);
+                dayWeatherDTO = weatherForecast.calculateWeatherOfDay(dayWeatherDTO);
 
                 Optional<DayWeatherDTO> optDayWeatherDTO = dao.saveDay(dayWeatherDTO);
 

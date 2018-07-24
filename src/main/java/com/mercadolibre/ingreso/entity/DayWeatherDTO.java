@@ -16,6 +16,8 @@ public class DayWeatherDTO extends DayWeatherResponseTO {
 
     private Long id;
 
+    private Double perimeter;
+
     public DayWeatherDTO(Integer day, WeatherStatus weather) {
         super(day, weather);
     }

@@ -1,10 +1,7 @@
 package com.mercadolibre.ingreso.service;
 
 import com.mercadolibre.ingreso.commons.Logs;
-import com.mercadolibre.ingreso.entity.AngularDirection;
-import com.mercadolibre.ingreso.entity.Coordenates;
-import com.mercadolibre.ingreso.entity.Planet;
-import com.mercadolibre.ingreso.entity.WeatherStatus;
+import com.mercadolibre.ingreso.entity.*;
 import com.mercadolibre.ingreso.util.Line;
 import com.mercadolibre.ingreso.util.Triangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +16,17 @@ public class WeatherForecast {
     @Autowired
     private Logs log;
 
-    public WeatherStatus calculateWeatherOfDay(Integer dayNumber) {
+    public DayWeatherDTO calculateWeatherOfDay(DayWeatherDTO dayWeatherDTO) {
 
         WeatherStatus weatherStatus = WeatherStatus.NORMAL;
 
-        Planet ferengi = new Planet("Ferengi", 500, 1, AngularDirection.CLOCKWISE, dayNumber);
+        Planet ferengi = new Planet("Ferengi", 500, 1, AngularDirection.CLOCKWISE, dayWeatherDTO.getDay());
 
-        Planet betasoide = new Planet("Betasoide", 2000, 3, AngularDirection.CLOCKWISE, dayNumber);
+        Planet betasoide = new Planet("Betasoide", 2000, 3, AngularDirection.CLOCKWISE, dayWeatherDTO.getDay());
 
-        Planet vulcano = new Planet("Vulcano", 1000, 5, AngularDirection.AGAINST_CLOCK, dayNumber);
+        Planet vulcano = new Planet("Vulcano", 1000, 5, AngularDirection.AGAINST_CLOCK, dayWeatherDTO.getDay());
 
-        Planet sun = new Planet("Sol", 0, 0, AngularDirection.STATIC, dayNumber);
+        Planet sun = new Planet("Sol", 0, 0, AngularDirection.STATIC, dayWeatherDTO.getDay());
 
         log.system().info("[Calculate Line using pointA: {}, pointB: {}]", ferengi.getCoordenates(), vulcano.getCoordenates());
 
@@ -52,10 +49,15 @@ public class WeatherForecast {
 
             if ((area1 + area2 + area3) == totalArea) {
                 weatherStatus = WeatherStatus.LLUVIA;
+
+                Double perimeter = new Triangle(ferengi.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates()).getPerimeter();
+                dayWeatherDTO.setPerimeter(perimeter);
             }
         }
 
-        return weatherStatus;
+        dayWeatherDTO.setWeather(weatherStatus);
+
+        return dayWeatherDTO;
     }
 
     private boolean areInLine(Coordenates planetXY, Line line) {
