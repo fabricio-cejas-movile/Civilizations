@@ -25,10 +25,12 @@ public class DayWeatherDTO extends DayWeatherResponseTO {
     public DayWeatherDTO(Long id, Integer day, WeatherStatus weather) {
         super(day, weather);
         this.id = id;
+
     }
 
-    public DayWeatherDTO(Long id, Integer day, String weather) {
+    public DayWeatherDTO(Long id, Integer day, String weather, Double perimeter) {
         super(day, WeatherStatus.valueOf(weather.toUpperCase()));
         this.id = id;
+        this.perimeter = perimeter;
     }
 }

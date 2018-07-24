@@ -55,6 +55,8 @@ public class WeatherForecast {
             }
         }
 
+
+
         dayWeatherDTO.setWeather(weatherStatus);
 
         return dayWeatherDTO;

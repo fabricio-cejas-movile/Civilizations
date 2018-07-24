@@ -41,11 +41,11 @@ public class WeatherDAO {
         StopWatch chronometer = new StopWatch();
         chronometer.start();
 
-        String query = "SELECT id, day, weather FROM public.civ_day_weather WHERE day = ?";
+        String query = "SELECT id, day, weather, perimeter FROM public.civ_day_weather WHERE day = ?";
 
         try {
             dayWeatherDTO = jdbcTemplate.queryForObject(query, new Object[]{dayWeatherDTO.getDay()}, (rs, rowNum) -> {
-                return new DayWeatherDTO(rs.getLong("id"), rs.getInt("day"), rs.getString("weather"));
+                return new DayWeatherDTO(rs.getLong("id"), rs.getInt("day"), rs.getString("weather"), rs.getDouble("perimeter"));
             });
         } catch (DataAccessException e) {
             log.exceptions().warn("[There is no data for day {}]", dayWeatherDTO.getDay());
@@ -79,7 +79,7 @@ public class WeatherDAO {
                 PreparedStatement ps = con.prepareStatement("INSERT INTO public.civ_day_weather(day, weather, perimeter) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, dayWeatherDTO.getDay());
                 ps.setString(2, dayWeatherDTO.getWeather().getValue());
-                ps.setDouble(3, dayWeatherDTO.getPerimeter());
+                ps.setObject(3, dayWeatherDTO.getPerimeter());
 
                 return ps;
             }
