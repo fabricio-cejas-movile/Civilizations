@@ -10,6 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+/**
+ * @author Fabricio Cejas (fabrizzio.cejas.80@gmail.com)
+ */
 @RunWith(SpringRunner.class)
 public class PlanetTest {
 
