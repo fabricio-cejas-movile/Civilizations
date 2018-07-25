@@ -31,7 +31,7 @@ public class ForecastService {
 
     private static final int AMOUNT_YEARS = 10;
 
-    private static final int MAX_NUMBER_DAY = 3650;
+    private static final int MAX_NUMBER_DAY = 3649;
 
     /**
      * Get specific weather of a day
