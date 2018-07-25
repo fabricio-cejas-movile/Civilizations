@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 public class DayWeatherResponseTO {
 
-    private Integer dayNumber;
+    private Integer day;
 
     private WeatherStatus weather;
 }

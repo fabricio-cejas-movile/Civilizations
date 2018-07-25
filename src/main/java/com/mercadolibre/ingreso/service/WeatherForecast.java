@@ -1,11 +1,10 @@
 package com.mercadolibre.ingreso.service;
 
-import com.mercadolibre.ingreso.entity.Coordenates;
-import com.mercadolibre.ingreso.entity.WeatherStatus;
+import com.mercadolibre.ingreso.commons.Logs;
+import com.mercadolibre.ingreso.entity.*;
 import com.mercadolibre.ingreso.util.Line;
-import com.mercadolibre.ingreso.util.PositionCalculator;
 import com.mercadolibre.ingreso.util.Triangle;
-import lombok.AccessLevel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,53 +13,56 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherForecast {
 
-    @lombok.Getter
-    @lombok.AllArgsConstructor(access = AccessLevel.PRIVATE)
-    private enum Planets {
-        FERENGI("Ferengi", 500, 1), BETASOIDE("Betasoide", 2000, 3), VULCANO("Vulcano", 1000, 5), SOL("Sol", 0, 0);
+    @Autowired
+    private Logs log;
 
-        private String name;
-
-        private Integer distanceFromSun;
-
-        private Integer angularVelocity;
-    }
-
-    public WeatherStatus calculateWeatherOfDay(Integer dayNumber) {
+    public DayWeatherDTO calculateWeatherOfDay(DayWeatherDTO dayWeatherDTO) {
 
         WeatherStatus weatherStatus = WeatherStatus.NORMAL;
 
-        Coordenates ferengiXY = PositionCalculator.getCoordenates(dayNumber, Planets.FERENGI.getAngularVelocity(), Planets.FERENGI.getDistanceFromSun(), Boolean.FALSE);
+        Planet ferengi = new Planet("Ferengi", 500, 1, AngularDirection.CLOCKWISE, dayWeatherDTO.getDay());
 
-        Coordenates betasoideXY = PositionCalculator.getCoordenates(dayNumber, Planets.BETASOIDE.getAngularVelocity(), Planets.BETASOIDE.getDistanceFromSun(), Boolean.FALSE);
+        Planet betasoide = new Planet("Betasoide", 2000, 3, AngularDirection.CLOCKWISE, dayWeatherDTO.getDay());
 
-        Coordenates vulcanoXY = PositionCalculator.getCoordenates(dayNumber, Planets.VULCANO.getAngularVelocity(), Planets.VULCANO.getDistanceFromSun(), Boolean.TRUE);
+        Planet vulcano = new Planet("Vulcano", 1000, 5, AngularDirection.AGAINST_CLOCK, dayWeatherDTO.getDay());
 
-        Coordenates sunXY = new Coordenates(0d, 0d);
+        Planet sun = new Planet("Sol", 0, 0, AngularDirection.STATIC, dayWeatherDTO.getDay());
 
-        Line line = new Line(ferengiXY, vulcanoXY);
+        log.system().info("[Calculate Line using pointA: {}, pointB: {}]", ferengi.getCoordenates(), vulcano.getCoordenates());
 
-        if (areInLine(betasoideXY, line)) {
+        Line line = new Line(ferengi.getCoordenates(), vulcano.getCoordenates());
 
-            if (areInLine(sunXY, line)) {
+        if (areInLine(betasoide.getCoordenates(), line)) {
+
+            if (areInLine(sun.getCoordenates(), line)) {
                 weatherStatus = WeatherStatus.SEQUIA;
             } else {
                 weatherStatus = WeatherStatus.CONDICIONES_OPTIMAS;
             }
         } else {
 
-            Double totalArea = new Triangle(ferengiXY, betasoideXY, vulcanoXY).getArea();
+            Double totalArea = new Triangle(ferengi.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates()).getArea();
 
-            Double area1 = new Triangle(sunXY, betasoideXY, vulcanoXY).getArea();
-            Double area2 = new Triangle(ferengiXY, sunXY, vulcanoXY).getArea();
-            Double area3 = new Triangle(ferengiXY, betasoideXY, sunXY).getArea();
+            Double area1 = new Triangle(sun.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates()).getArea();
+            Double area2 = new Triangle(ferengi.getCoordenates(), sun.getCoordenates(), vulcano.getCoordenates()).getArea();
+            Double area3 = new Triangle(ferengi.getCoordenates(), betasoide.getCoordenates(), sun.getCoordenates()).getArea();
 
             if ((area1 + area2 + area3) == totalArea) {
                 weatherStatus = WeatherStatus.LLUVIA;
+
+                Double perimeter = new Triangle(ferengi.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates()).getPerimeter();
+
+                log.system().info("[perimeter calculated: {}, for coordenates {} - {} - {}]", perimeter, ferengi.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates());
+
+                dayWeatherDTO.setPerimeter(perimeter);
             }
         }
 
-        return weatherStatus;
+
+
+        dayWeatherDTO.setWeather(weatherStatus);
+
+        return dayWeatherDTO;
     }
 
     private boolean areInLine(Coordenates planetXY, Line line) {

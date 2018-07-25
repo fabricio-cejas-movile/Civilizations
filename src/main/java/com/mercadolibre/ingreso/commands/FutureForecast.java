@@ -22,7 +22,7 @@ public class FutureForecast implements CommandLineRunner {
     private ForecastService service;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         if (!service.existsPredictions()) {
             service.generatePredictions();

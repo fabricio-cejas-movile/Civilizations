@@ -60,31 +60,6 @@
         <appender-ref ref="ap_requestsanswered"/>
     </appender>
 
-    <appender name="ap_requestsperformed"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/requests_performed.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily -->
-            <fileNamePattern>${LOG_PATH}/requests_performed.k3m.%d{yyyy-MM-dd}.log.%i.gz
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${DEFAULT_MAX_FILE_SIZE}</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${DEFAULT_PATTERN}</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="ap_requestsperformed_async" class="ch.qos.logback.classic.AsyncAppender">
-        <queueSize>${DEFAULT_ASYNC_QUEUE_SIZE}</queueSize>
-        <discardingThreshold>0</discardingThreshold>
-        <includeCallerData>true</includeCallerData>
-        <appender-ref ref="ap_requestsperformed"/>
-    </appender>
-
     <appender name="ap_system"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/system.log</file>
@@ -137,10 +112,6 @@
 
     <logger name="exceptions" level="ERROR" additivity="false">
         <appender-ref ref="ap_exceptions"/>
-    </logger>
-
-    <logger name="requests_performed" level="INFO" additivity="false">
-        <appender-ref ref="ap_requestsperformed_async"/>
     </logger>
 
     <logger name="requests_answered" level="INFO" additivity="false">
