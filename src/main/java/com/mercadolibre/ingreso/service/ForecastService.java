@@ -1,15 +1,16 @@
 package com.mercadolibre.ingreso.service;
 
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.mercadolibre.ingreso.commons.Logs;
 import com.mercadolibre.ingreso.dao.WeatherDAO;
 import com.mercadolibre.ingreso.entity.DayWeatherDTO;
 import com.mercadolibre.ingreso.entity.DayWeatherResponseTO;
-import com.mercadolibre.ingreso.entity.WeatherStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.stream.IntStream;
 
 /**
  * @author Fabricio Cejas (fabrizzio.cejas.80@gmail.com)
@@ -69,7 +70,7 @@ public class ForecastService {
                 DayWeatherDTO dayWeatherDTO = new DayWeatherDTO(uniqueDay, null);
 
                 dayWeatherDTO = weatherForecast.calculateWeatherOfDay(dayWeatherDTO);
-
+                
                 Optional<DayWeatherDTO> optDayWeatherDTO = dao.saveDay(dayWeatherDTO);
 
                 log.system().debug("[init registers in data base][day: {}][was saved: {}]", uniqueDay, optDayWeatherDTO.get());

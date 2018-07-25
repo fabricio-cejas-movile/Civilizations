@@ -1,6 +1,8 @@
 ---
 applications:
-- name: civilizations
+- name: ml_init_civilizations
+  services: 
+    - ml_civilizations
   memory: 768M
-  instances: 1
   random-route: true
+  path: build/libs/Civilizations-1.0.0.jar

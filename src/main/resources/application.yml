@@ -1,12 +1,10 @@
 spring:
-    profiles: default
+    profiles: dev
     datasource:
-            url: jdbc:mysql://localhost:3306/ml_civilizations?useSSL=false
-            username: root
-            password: sOLEDAd04011981$%()!
-            testWhileIdle: true
-            validationQuery: SELECT 1
-            driver-class-name: com.mysql.jdbc.Driver
+            url: jdbc:postgresql://localhost:5432/civilizations
+            username: postgres
+            password: sOLEDAd04011981
+            driver-class-name: org.postgresql.Driver
 
 server:
     port: 9002
@@ -14,11 +12,11 @@ server:
 ---
 
 spring:
-    profiles: production
+    profiles: postgres
     datasource:
-            url: jdbc:postgresql://localhost:5432/civilizations
+            url: jdbc:postgresql://localhost:5432/ml_civilizations
             username: postgres
-            password: sOLEDAd04011981
+            password:
             driver-class-name: org.postgresql.Driver
 
 server:

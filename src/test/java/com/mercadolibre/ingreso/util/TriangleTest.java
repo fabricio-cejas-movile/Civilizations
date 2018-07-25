@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 public class TriangleTest {
 
-    private Double perimeterExpected = 23.557261466173436d;
+    private Double perimeterExpected = 23.5573d;
 
     @Test
     public void calculatePerimeterTest() {

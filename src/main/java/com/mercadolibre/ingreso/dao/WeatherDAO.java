@@ -1,22 +1,24 @@
 package com.mercadolibre.ingreso.dao;
 
-import com.mercadolibre.ingreso.commons.Logs;
-import com.mercadolibre.ingreso.entity.DayWeatherDTO;
-import com.mercadolibre.ingreso.entity.WeatherStatus;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StopWatch;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Optional;
+import com.mercadolibre.ingreso.commons.Logs;
+import com.mercadolibre.ingreso.entity.DayWeatherDTO;
+import com.mercadolibre.ingreso.entity.WeatherStatus;
 
 /**
  * @author Fabricio Cejas (fabrizzio.cejas.80@gmail.com)
@@ -65,6 +67,7 @@ public class WeatherDAO {
      * @param dayWeatherDTO
      * @return
      */
+    @Async
     public Optional<DayWeatherDTO> saveDay(DayWeatherDTO dayWeatherDTO) {
 
         StopWatch chronometer = new StopWatch();
