@@ -51,6 +51,9 @@ public class WeatherForecast {
                 weatherStatus = WeatherStatus.LLUVIA;
 
                 Double perimeter = new Triangle(ferengi.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates()).getPerimeter();
+
+                log.system().info("[perimeter calculated: {}, for coordenates {} - {} - {}]", perimeter, ferengi.getCoordenates(), betasoide.getCoordenates(), vulcano.getCoordenates());
+
                 dayWeatherDTO.setPerimeter(perimeter);
             }
         }

@@ -29,8 +29,8 @@ public class Triangle {
         this.pointB = pointB;
         this.pointC = pointC;
 
-        this.calculateArea();
-        this.calculatePerimeter();
+        this.area = this.calculateArea();
+        this.perimeter = this.calculatePerimeter();
 
     }
 
@@ -42,7 +42,7 @@ public class Triangle {
      *
      * @return
      */
-    public void calculateArea() {
+    public Double calculateArea() {
 
         double firstTerm = (this.pointA.getPosX() * this.pointB.getPosY())
                 + (this.pointB.getPosX() * pointC.getPosY()) + (this.pointC.getPosX() * this.pointA.getPosY());
@@ -50,16 +50,17 @@ public class Triangle {
         double secondTerm = (this.pointA.getPosX() * this.pointC.getPosY())
                 + (this.pointC.getPosX() * this.pointB.getPosY()) + (this.pointB.getPosX() * this.pointA.getPosY());
 
-        this.area = Math.round(((firstTerm - secondTerm) / 2) * 100d) * 100d;
+        //return Math.round(((firstTerm - secondTerm) / 2) * 10000d) / 10000d;
+        return ((firstTerm - secondTerm) / 2);
     }
 
     /**
      * Calculate perimeter, obtaining distance between pointA-pointB, pointA-pointC, pointB-pointC
-     * for obtain distance squareRoot of ((x2 - x1)^2 + (y2 - y1)^2)
+     * for obtain distance squareRoot of ((x2 - x1)^2 + (x2 - y1)^2)
      *
      * @return
      */
-    public void calculatePerimeter() {
+    public Double calculatePerimeter() {
 
         Double distanceAB = Math.sqrt(Math.pow((this.pointB.getPosX() - this.pointA.getPosX()), 2d) + Math.pow((this.pointB.getPosY() - this.pointA.getPosY()), 2d));
 
@@ -67,6 +68,7 @@ public class Triangle {
 
         Double distanceBC = Math.sqrt(Math.pow((this.pointC.getPosX() - this.pointB.getPosX()), 2d) + Math.pow((this.pointC.getPosY() - this.pointB.getPosY()), 2d));
 
-        this.perimeter = Math.round((distanceAB + distanceAC + distanceBC) * 100d) * 100d;
+        //return Math.round((distanceAB + distanceAC + distanceBC) * 10000d) / 10000d;
+        return distanceAB + distanceAC + distanceBC;
     }
 }

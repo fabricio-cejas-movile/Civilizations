@@ -42,9 +42,13 @@ public class Planet {
 
         double angleRadians = Math.toRadians(angleDay);
 
-        Double posX = Math.round((Math.cos(angleRadians) * this.distanceFromSun) * 100d) / 100d;
+        Double posX = Math.round((Math.cos(angleRadians) * this.distanceFromSun) * 10000d) / 10000d;
 
-        Double posY = Math.round((Math.sin(angleRadians) * this.distanceFromSun) * 100d) / 100d;
+        //Double posX = Math.cos(angleRadians) * this.distanceFromSun;
+
+        Double posY = Math.round((Math.sin(angleRadians) * this.distanceFromSun) * 10000d) / 10000d;
+
+        //Double posY = Math.sin(angleRadians) * this.distanceFromSun;
 
         return new Coordenates(posX, posY);
     }
