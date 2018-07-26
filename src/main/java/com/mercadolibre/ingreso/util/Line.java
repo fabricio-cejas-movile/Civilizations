@@ -37,11 +37,11 @@ public class Line {
 
     public Double calculateSlope() {
         Double slope = (this.pointB.getPosY() - this.pointA.getPosY()) / (this.pointB.getPosX() - this.pointA.getPosX());
-        return Math.round(slope * 10000d) / 10000d;
+        return Math.round(slope * 100d) / 100d;
     }
 
     public Double calculateYIntercept() {
         Double yIntercept = this.pointA.getPosY() - (this.slope * this.pointA.getPosX());
-        return Math.round(yIntercept * 10000d) / 10000d;
+        return Math.round(yIntercept * 100d) / 100d;
     }
 }

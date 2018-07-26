@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import com.mercadolibre.ingreso.exceptions.NumberOutOfValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,10 +40,10 @@ public class ForecastService {
      * @param day
      * @return DayWeatherDTO Object
      */
-    public DayWeatherResponseTO getWeatherDay(Integer day) throws Exception {
+    public DayWeatherResponseTO getWeatherDay(Integer day) throws NumberOutOfValueException {
 
         if (day < 0 || day > MAX_NUMBER_DAY) {
-            throw new Exception("The value for the day parameter must be in between 0 and 3649.");
+            throw new NumberOutOfValueException("The value for the day parameter must be in between 0 and 3649.");
         }
 
         DayWeatherDTO dayWeatherDTO = new DayWeatherDTO();
@@ -60,7 +61,7 @@ public class ForecastService {
     /**
      * Generate predictions for next ten years
      */
-    public void generatePredictions() {
+    public void generateAndSavePredictions() {
 
         IntStream.range(0, AMOUNT_YEARS).parallel().forEach(year -> {
             IntStream.range(0, AMOUNT_DAYS).parallel().forEach(day -> {

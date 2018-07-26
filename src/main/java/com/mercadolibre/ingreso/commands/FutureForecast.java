@@ -25,7 +25,7 @@ public class FutureForecast implements CommandLineRunner {
     public void run(String... args) {
 
         if (!service.existsPredictions()) {
-            service.generatePredictions();
+            service.generateAndSavePredictions();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

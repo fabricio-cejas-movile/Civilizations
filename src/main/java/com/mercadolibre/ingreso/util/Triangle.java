@@ -9,7 +9,6 @@ import lombok.ToString;
  * @author Fabricio Cejas (fabrizzio.cejas.80@gmail.com)
  */
 @Getter
-@Setter
 @ToString
 public class Triangle {
 
@@ -50,7 +49,7 @@ public class Triangle {
         double secondTerm = (this.pointA.getPosX() * this.pointC.getPosY())
                 + (this.pointC.getPosX() * this.pointB.getPosY()) + (this.pointB.getPosX() * this.pointA.getPosY());
 
-        return Math.round(((firstTerm - secondTerm) / 2) * 10000d) / 10000d;
+        return Math.abs(Math.round(((firstTerm - secondTerm) / 2) * 100d) / 100d);
     }
 
     /**
@@ -67,6 +66,6 @@ public class Triangle {
 
         Double distanceBC = Math.sqrt(Math.pow((this.pointC.getPosX() - this.pointB.getPosX()), 2d) + Math.pow((this.pointC.getPosY() - this.pointB.getPosY()), 2d));
 
-        return Math.round((distanceAB + distanceAC + distanceBC) * 10000d) / 10000d;
+        return Math.round((distanceAB + distanceAC + distanceBC) * 100d) / 100d;
     }
 }

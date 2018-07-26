@@ -2,11 +2,13 @@ package com.mercadolibre.ingreso.controller;
 
 import com.mercadolibre.ingreso.commons.Logs;
 import com.mercadolibre.ingreso.entity.DayWeatherResponseTO;
+import com.mercadolibre.ingreso.exceptions.NumberOutOfValueException;
 import com.mercadolibre.ingreso.service.ForecastService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.Produces;
@@ -26,7 +28,7 @@ public class ForecastController {
 
     @RequestMapping("/weather")
     @Produces(MediaType.APPLICATION_JSON)
-    public DayWeatherResponseTO getDayWeather(@RequestParam(value = "day", required = true) Integer day) throws Exception {
+    public @ResponseBody DayWeatherResponseTO getDayWeather(@RequestParam(value = "day", defaultValue = "1") Integer day) throws NumberOutOfValueException {
 
         StopWatch chronometer = new StopWatch();
         chronometer.start();
